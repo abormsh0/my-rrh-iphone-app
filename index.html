@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0e2335">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="تجربتي">
+  <meta name="description" content="تطبيق عربي تجريبي مجاني لإدارة مهامك من iPhone.">
+  <title>تجربتي | أول تطبيق على iPhone</title>
+  <style>
+    :root { color-scheme: light; --ink:#152b3a; --muted:#687986; --bg:#f5f6f5; --paper:#ffffff; --line:#e3e8e9; --accent:#127f70; --accent-dark:#0b675b; --gold:#d3a96b; }
+    * { box-sizing: border-box; }
+    body { margin:0; padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif; }
+    header { background:linear-gradient(130deg,#102c41,#194e54); color:#fff; padding:32px 21px 54px; border-radius:0 0 34px 34px; }
+    .wrapper { max-width:560px; margin:auto; }
+    .badge { display:inline-flex; align-items:center; gap:8px; color:#d5ebea; font-size:12px; letter-spacing:.2px; margin-bottom:10px; }
+    .badge:before { content:""; display:inline-block; width:8px; height:8px; background:#70d6ad; border-radius:100%; }
+    h1 { margin:4px 0 5px; font-size:31px; font-weight:800; letter-spacing:-.5px; }
+    .sub { margin:0; color:#d4e4e8; font-size:14px; line-height:1.8; }
+    main { margin:-27px auto 0; padding:0 17px 30px; }
+    .panel { background:var(--paper); border:1px solid var(--line); border-radius:22px; box-shadow:0 10px 26px rgba(19,46,58,.05); padding:20px; margin-bottom:14px; }
+    .topline { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    h2 { font-size:17px; margin:0 0 14px; }
+    .count { background:#eaf5f1; color:var(--accent-dark); border-radius:99px; padding:5px 11px; font-weight:750; font-size:12px; white-space:nowrap; }
+    .entry { display:flex; gap:8px; align-items:stretch; }
+    input[type=text] { flex:1; min-width:0; border:1.5px solid #d7dfe2; border-radius:13px; padding:13px; background:#fcfdfd; font-family:inherit; font-size:16px; outline:0; color:var(--ink); }
+    input[type=text]:focus { border-color:var(--accent); box-shadow:0 0 0 3px #127f7021; }
+    button { font-family:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+    .add { background:var(--accent); color:white; border:0; padding:0 19px; font-size:17px; font-weight:700; border-radius:13px; }
+    .add:active { background:var(--accent-dark); }
+    .progress { height:9px; background:#edf0ef; border-radius:30px; overflow:hidden; margin-top:17px; }
+    .fill { width:0; height:100%; background:linear-gradient(90deg,#127f70,#6ac9ae); border-radius:inherit; transition:width .2s; }
+    .summary { color:var(--muted); font-size:12px; margin:9px 0 0; }
+    ul { list-style:none; margin:0; padding:0; }
+    li { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #eff1f2; }
+    li:last-child { border-bottom:none; }
+    .task-check { appearance:none; width:24px; height:24px; border:2px solid #bdceca; border-radius:8px; flex:0 0 auto; margin:0; position:relative; }
+    .task-check:checked { background:var(--accent); border-color:var(--accent); }
+    .task-check:checked:after { content:"✓"; color:white; font-weight:bold; position:absolute; left:5px; top:0px; }
+    .task-title { flex:1; font-size:15px; overflow-wrap:anywhere; line-height:1.5; }
+    li.done .task-title { color:#9aa4a7; text-decoration:line-through; }
+    .remove { background:#f5f7f7; border:0; width:32px; height:32px; border-radius:9px; color:#9a5d58; font-size:20px; }
+    .empty { text-align:center; color:var(--muted); padding:28px 8px 18px; font-size:14px; line-height:1.8; }
+    .empty strong { display:block; color:var(--ink); font-size:17px; margin-bottom:4px; }
+    .hint { background:#e9f3ef; border-radius:16px; padding:16px 18px; color:#2e615a; font-size:13px; line-height:1.9; }
+    footer { text-align:center; color:#7b8b91; font-size:12px; padding:15px; }
+  </style>
+</head>
+<body>
+<header><div class="wrapper">
+  <div class="badge">نسخة تجريبية • تعمل على iPhone</div>
+  <h1>تجربتي</h1>
+  <p class="sub">أول تطبيق لك. أضف مهامك، أنجزها، واختبر حفظها على هاتفك.</p>
+</div></header>
+<main class="wrapper">
+  <section class="panel">
+    <div class="topline"><h2>مهمة جديدة</h2><span id="counter" class="count">0 مهام</span></div>
+    <form id="task-form" class="entry">
+      <input id="task-input" type="text" placeholder="مثال: تجربة أول تطبيق" aria-label="نص المهمة" maxlength="120" required autocomplete="off">
+      <button class="add" type="submit">إضافة</button>
+    </form>
+    <div class="progress" role="progressbar" aria-label="تقدم المهام" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div id="fill" class="fill"></div></div>
+    <p class="summary" id="summary">أضف مهمة للبدء</p>
+  </section>
+  <section class="panel">
+    <div class="topline"><h2>قائمة مهامي</h2></div>
+    <ul id="tasks"></ul>
+    <div id="empty" class="empty"><strong>كل شيء جاهز!</strong>أضف أول مهمة واضغط «إضافة».</div>
+  </section>
+  <aside class="hint">جرّب إضافة مهمة ثم أغلق التطبيق وافتحه من جديد. ستبقى المهام محفوظة على هذا الجهاز ضمن بيانات التطبيق، ما لم تُمسح بيانات الموقع.</aside>
+  <footer>تجربتي • تطبيق ويب مجاني • دون اشتراك Apple Developer</footer>
+</main>
+<script>
+(function () {
+  'use strict';
+  const key = 'tajribati.tasks.v1';
+  const list = document.getElementById('tasks');
+  const form = document.getElementById('task-form');
+  const input = document.getElementById('task-input');
+  let tasks = [];
+  try { const saved = JSON.parse(localStorage.getItem(key) || '[]'); tasks = Array.isArray(saved) ? saved.filter(x => x && typeof x.text === 'string').slice(0,250) : []; } catch (_) { tasks = []; }
+  function save() { try { localStorage.setItem(key, JSON.stringify(tasks)); } catch (_) { alert('تعذر حفظ البيانات على الجهاز؛ تحقق من إعدادات التخزين.'); } }
+  function render() {
+    list.replaceChildren();
+    document.getElementById('empty').hidden = tasks.length > 0;
+    const completed = tasks.filter(t => t.done).length;
+    const pct = tasks.length ? Math.round(completed / tasks.length * 100) : 0;
+    document.getElementById('counter').textContent = tasks.length + (tasks.length === 1 ? ' مهمة' : ' مهام');
+    document.getElementById('summary').textContent = tasks.length ? `أنجزت ${completed} من أصل ${tasks.length} مهمة (${pct}٪)` : 'أضف مهمة للبدء';
+    document.getElementById('fill').style.width = pct + '%';
+    document.getElementById('progress').setAttribute('aria-valuenow', String(pct));
+    for (const task of tasks) {
+      const li = document.createElement('li');
+      if (task.done) li.className = 'done';
+      const check = document.createElement('input');
+      check.type = 'checkbox'; check.className = 'task-check'; check.checked = Boolean(task.done);
+      check.setAttribute('aria-label','إكمال المهمة: ' + task.text);
+      check.addEventListener('change', () => { task.done = check.checked; save(); render(); });
+      const span = document.createElement('span'); span.className = 'task-title'; span.textContent = task.text;
+      const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'remove'; remove.textContent = '×'; remove.setAttribute('aria-label','حذف المهمة: ' + task.text);
+      remove.addEventListener('click', () => { tasks = tasks.filter(t => t.id !== task.id); save(); render(); });
+      li.append(check, span, remove); list.append(li);
+    }
+  }
+  form.addEventListener('submit', event => {
+    event.preventDefault(); const text = input.value.trim(); if (!text) return;
+    tasks.unshift({ id: String(Date.now()) + '-' + Math.random().toString(16).slice(2), text, done:false });
+    input.value = ''; save(); render(); input.focus();
+  });
+  render();
+}());
+</script>
+</body>
+</html>
